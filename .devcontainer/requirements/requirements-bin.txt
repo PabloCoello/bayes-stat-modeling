@@ -1,0 +1,6 @@
+r-cran-rmarkdown
+r-cran-ggplot2
+r-cran-plotly
+r-cran-stringr
+r-cran-dplyr
+r-cran-data.table

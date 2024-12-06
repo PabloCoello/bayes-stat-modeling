@@ -1,0 +1,7 @@
+{
+    "name":"bayes-stat-modeling",
+    "build": {
+        "dockerfile":"Dockerfile",
+        "context": "."
+    }
+}
