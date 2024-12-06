@@ -1,0 +1,34 @@
+# Ignorar carpetas secundarias generadas por Quarto
+*_files/
+*.quarto_ipynb
+
+# Ignorar archivos de RStudio y datos intermedios de R
+*.Rproj
+.Rproj.user/
+*.Rhistory
+*.RData
+*.rds
+
+# Ignorar carpetas de caché y archivos temporales de R
+.Ruserdata
+.Rbuildignore
+__pycache__/
+.Rapp.history
+
+# Ignorar carpetas y archivos generados por Jupyter/Quarto
+.ipynb_checkpoints/
+*.ipynb
+*.nb.html
+
+# Ignorar configuraciones locales o archivos de logs
+.DS_Store
+*.log
+*.tmp
+
+# Ignorar salidas de compilaciones o resultados temporales
+*.o
+*.out
+*.so
+
+# Ignorar cualquier archivo con el prefijo temporal de Quarto
+*_cache/
