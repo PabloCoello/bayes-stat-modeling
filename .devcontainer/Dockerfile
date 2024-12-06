@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 ARG SSH_KEY
 ARG SSH_PRV_KEY
 ARG DEBIAN_FRONTEND=noninteractive
@@ -12,9 +12,10 @@ RUN apt-get update && apt-get install -y \
     cmake \
     unzip \
     software-properties-common \
-    libcurl4-gnutls-dev \
     libssl-dev \
     libxml2-dev \
+    libcurl4-openssl-dev \
+    libv8-dev \
     build-essential \
     gdebi-core \
     locales \
@@ -25,16 +26,22 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
+RUN add-apt-repository ppa:marutter/rrutter4.0
+RUN add-apt-repository ppa:c2d4u.team/c2d4u4.0+
+RUN apt update
+
 RUN python3 -m pip install --upgrade pip
-    
+
+RUN locale-gen en_US.UTF-8
+RUN update-locale LANG=en_US.UTF-8
+
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
 ## Install R
-RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | gpg --dearmor -o /usr/share/keyrings/r-project.gpg
-RUN echo "deb [signed-by=/usr/share/keyrings/r-project.gpg] https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/" | tee -a /etc/apt/sources.list.d/r-project.list
-RUN apt-get update && apt-get install -y \
-    r-base \
-    r-base-core \
-    r-recommended \
-    r-base-dev
+RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+RUN add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+RUN apt-get update && apt install -y --no-install-recommends r-base
 
 ## Install Quarto
 RUN curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
