@@ -1,0 +1,78 @@
+---
+title: "Name of the analysis"
+author: "Name of the authors"
+date: "07/12/2024"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: true
+    number-sections: true
+    theme:
+      light: flatly
+      dark: darkly
+---
+
+# Context and Goals
+This section should describe all the important details about the context of the analysis and the objectives we aim to address with it.
+
+## Context
+Describe all the details arround the analysis: where does the data come from, how was it generated, in which context are we analyzing it, is it in a bussiness or academix context? also, it is good to examine what assumptions, analysis methods, and visualization methods are usually used in this field. Cite referencies if required.
+
+## Goals
+Summarize what you want to know and conclude from the data. It is a good idea to itemize and prioritize them.
+
+# Data
+This section should describe all the details about the data. We are going to consider the data as the final [ABT](https://en.wikipedia.org/wiki/Analytical_base_table) for the analysis, so no data handling or data transformation is being considered in this document.
+
+## Data dictionary
+Display a table with the following information about the ABT:
+
+* **Variable name**: Name of the variable, names should be lowercase and with no spaces (use underscores). No special characters also.
+* **Variable type**: Type of the variable. We are considering here statistical types so it has to be one of the following:
+  * Nominal: Values are categories.
+  * Ordinal: Values are ranked or ordered categories.
+  * Continuous: A variable is said to be continuous if it can assume an infinite number of real values within a given interval.
+  * Discrete: A discrete variable can assume only a finite number of real values within a given interval.
+* **Description**: Description of the meaning of the variable and any information that can be handy to interpret it.
+
+Here we show an example of data dictionary:
+
+```{r}
+#| warning: false
+df <- read.csv2("data-dictionary.csv")
+kableExtra::kable(df)
+```
+
+## EDA
+Exploratory data analysis should be carry on the data before starting the analysis. This is a visualization process. Here some suggestions for the process:
+
+* First visualize the **distribution of values of each data attribute** (e.g., each column of a data frame if you use
+R or Python). Draw one-dimensional graphs (histogram) for each attribute and draw two-dimensional graphs (scatter plot or boxplot) for a pair of attributes. 
+* For time series data, it is also helpful to draw a line graph with time on the x-axis and values on the y-axis. 
+* For a combination of two attributes with categorical values, **cross tables** might be a good way to visualize their relationships. 
+
+Next, calculate **summary statistics** for each group and individual, and visualize their distributions. It may require some computation by aggregating or by preprocessing the data. These visualizations and aggregated values are very useful in considering the mechanisms of data generation process.
+
+# Model
+Once we have understood the data through the variable dictionary and conducted a descriptive analysis to help infer the data-generating mechanism, we can then describe this mechanism using a model formula and implement it on our data.
+
+## Model formula
+The mathematical formulas could help us realize an equivalent representation of the model, which could be a hint for efficient implementation.
+
+We show here this example taken from (Matsuura, 2023): suppose there are 20 data points Y [1], Y [2],..., Y [20] independently generated from a normal distribution with an unknown mean with standard deviation (SD) of 1. The model formula in this case is expressed as follows:
+$$Y[n] \sim \mathcal{N}(\mu, 1)$$
+
+## Implement model
+Implement the model formula in a programming language for estimating the parameters with both simulated and real data.
+
+If we are running a stan model we can import the stan code from the .stan file in the directory. If we are using other dependencies like PyMC, we must try to fit all the implementation in one single chunk of code.
+
+## Check models
+Check whether the true values are recovered from simulated data. This is called parameter recovery. If the true values cannot be recovered, fitting the model to real data will not provide useful information. Visualization is also very helpful to check the goodness of fit.
+
+# Interpret results
+Interpret and visualize the estimated results to solve the problem set in section 1.2. It is also recommended in this section to make an effort to present the results with storytelling that is understandable to the intended audience. These results can be accompanied by visualizations, but it is essential to ensure that they align with the storytelling and remain accessible.
+
+# References
+List all the references used for the analysis.
