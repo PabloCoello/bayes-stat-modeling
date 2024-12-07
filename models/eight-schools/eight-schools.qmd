@@ -1,0 +1,83 @@
+---
+title: "Eight Schools analysis"
+author: "Pablo Coello Pulido"
+date: "07/12/2024"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: true
+    number-sections: true
+    theme:
+      light: flatly
+      dark: darkly
+---
+
+# Context and Goals
+This section should describe all the important details about the context of the analysis and the objectives we aim to address with it.
+
+## Context
+Describe all the details arround the analysis: where does the data come from, how was it generated, in which context are we analyzing it, is it in a bussiness or academix context? also, it is good to examine what assumptions, analysis methods, and visualization methods are usually used in this field. Cite referencies if required.
+
+## Goals
+Summarize what you want to know and conclude from the data. It is a good idea to itemize and prioritize them.
+
+# Data
+```{R}
+library("rstan")
+options(mc.cores = parallel::detectCores())
+rstan_options(auto_write = TRUE)
+```
+
+```{R}
+schools_dat <- list(J = 8, 
+                    y = c(28,  8, -3,  7, -1,  1, 18, 12),
+                    sigma = c(15, 10, 16, 11,  9, 11, 10, 18))
+```
+
+## Data dictionary
+
+## EDA
+
+
+
+# Model
+Once we have understood the data through the variable dictionary and conducted a descriptive analysis to help infer the data-generating mechanism, we can then describe this mechanism using a model formula and implement it on our data.
+
+## Model formula
+The mathematical formulas could help us realize an equivalent representation of the model, which could be a hint for efficient implementation.
+
+We show here this example taken from (Matsuura, 2023): suppose there are 20 data points Y [1], Y [2],..., Y [20] independently generated from a normal distribution with an unknown mean with standard deviation (SD) of 1. The model formula in this case is expressed as follows:
+$$Y[n] \sim \mathcal{N}(\mu, 1)$$
+
+## Implement model
+Implement the model formula in a programming language for estimating the parameters with both simulated and real data.
+
+If we are running a stan model we can import the stan code from the .stan file in the directory. If we are using other dependencies like PyMC, we must try to fit all the implementation in one single chunk of code.
+
+
+```{R}
+fit <- stan(file = 'model.stan', data = schools_dat)
+d <- as.data.frame(fit)
+```
+
+## Check models
+Check whether the true values are recovered from simulated data. This is called parameter recovery. If the true values cannot be recovered, fitting the model to real data will not provide useful information. Visualization is also very helpful to check the goodness of fit.
+
+```{R}
+print(fit)
+```
+
+```{R}
+plot(fit)
+```
+
+```{R}
+pairs(fit, pars = c("mu", "tau", "lp__"))
+```
+
+# Interpret results
+Interpret and visualize the estimated results to solve the problem set in section 1.2. It is also recommended in this section to make an effort to present the results with storytelling that is understandable to the intended audience. These results can be accompanied by visualizations, but it is essential to ensure that they align with the storytelling and remain accessible.
+
+# References
+List all the references used for the analysis.
