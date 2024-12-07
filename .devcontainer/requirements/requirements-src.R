@@ -9,3 +9,5 @@ cat("\nCXX17FLAGS=-O3 -march=native -mtune=native -fPIC",
 install.packages('languageserver', repos='https://cloud.r-project.org/') 
 install.packages('BH')
 install.packages("QuickJSR")
+install.packages("reticulate")
+install.packages("kableExtra")
