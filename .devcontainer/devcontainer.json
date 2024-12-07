@@ -12,7 +12,8 @@
             "wardbrian.vscode-stan-extension",
             "quarto.quarto",
             "ms-azuretools.vscode-docker",
-            "DavidAnson.vscode-markdownlint"
+            "DavidAnson.vscode-markdownlint",
+            "ms-toolsai.jupyter"
             ]
         }
     }
