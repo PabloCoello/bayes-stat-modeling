@@ -13,41 +13,42 @@ format:
       dark: darkly
 ---
 
-# Context and Goals
-This section should describe all the important details about the context of the analysis and the objectives we aim to address with it.
-
-## Context
-Describe all the details arround the analysis: where does the data come from, how was it generated, in which context are we analyzing it, is it in a bussiness or academix context? also, it is good to examine what assumptions, analysis methods, and visualization methods are usually used in this field. Cite referencies if required.
-
-## Goals
-Summarize what you want to know and conclude from the data. It is a good idea to itemize and prioritize them.
-
-# Data
 ```{R}
 library("rstan")
 options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
 ```
 
+## Context
+The Scholastic Aptitude Test (SAT) measures the aptitude of high-schoolers in order to help colleges to make admissions decisions. It is divided into two parts, verbal (SAT-V) and mathematical (SAT-M). Our data comes from the SAT-V (Scholastic Aptitude Test-Verbal) on eight different high schools, from an experiment conducted in the late 1970s. SAT-V is a standard multiple choice test administered by the Educational Testing Service. This Service was interested in the effects of coaching programs for each of the selected schools.
+
+## Goals
+Summarize what you want to know and conclude from the data. It is a good idea to itemize and prioritize them.
+
+# Data
+
+The study included coached and uncoached pupils, about sixty in each of the eight different schools; see Rubin (1981). All of them had already taken the PSAT (Preliminary SAT) which results were used as covariates. For each school, the estimated treatment effect and the standard error of the effect estimate are given. These are calculated by an analysis of covariance adjustment appropriate for a completely randomized experiment (Rubin 1981). This example was analyzed using a hierarchical normal model in Rubin (1981) and Gelman, Carlin, Stern, and Rubin (2003, Section 5.5).
+
 ```{R}
 schools_dat <- list(J = 8, 
-                    y = c(28,  8, -3,  7, -1,  1, 18, 12),
-                    sigma = c(15, 10, 16, 11,  9, 11, 10, 18))
+                    y = c(28.39,  7.94, -2.75,  6.82, -0.64,  0.63, 18.01, 12.16),
+                    sigma = c(14.9, 10.2, 16.3, 11.0,  9.4, 11.4, 10.4, 17.6))
 ```
 
 ## Data dictionary
 
-## EDA
-
-
+```{r}
+#| warning: false
+df <- read.csv2("data-dictionary.csv")
+kableExtra::kable(df)
+```
 
 # Model
-Once we have understood the data through the variable dictionary and conducted a descriptive analysis to help infer the data-generating mechanism, we can then describe this mechanism using a model formula and implement it on our data.
+
 
 ## Model formula
-The mathematical formulas could help us realize an equivalent representation of the model, which could be a hint for efficient implementation.
+For modeling these data, we use a hierarchical model as proposed by Gelman et al. (2003, Section 5.5). We assume a normal distribution for the observed estimate for each school with mean theta and inverse-variance tau.y. The inverse-variance is given as 1/sigma.y2 and its prior distribution is uniform on (0,1000). For the mean theta, we employ another normal distribution with mean mu.theta and inverse-variance tau.theta.
 
-We show here this example taken from (Matsuura, 2023): suppose there are 20 data points Y [1], Y [2],..., Y [20] independently generated from a normal distribution with an unknown mean with standard deviation (SD) of 1. The model formula in this case is expressed as follows:
 $$Y[n] \sim \mathcal{N}(\mu, 1)$$
 
 ## Implement model
@@ -80,4 +81,5 @@ pairs(fit, pars = c("mu", "tau", "lp__"))
 Interpret and visualize the estimated results to solve the problem set in section 1.2. It is also recommended in this section to make an effort to present the results with storytelling that is understandable to the intended audience. These results can be accompanied by visualizations, but it is essential to ensure that they align with the storytelling and remain accessible.
 
 # References
-List all the references used for the analysis.
+* Gelman, A., Carlin, J. B., Stern, H. S., and Rubin, D. B. (2003). Bayesian Data Analysis, CRC Press, London, 2nd Edition.
+* Rubin DB (1981). “Estimation in Parallel Randomized Experiments.” Journal of Educational Statistics, 6, 377–400.

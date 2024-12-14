@@ -112,24 +112,20 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#context-and-goals" id="toc-context-and-goals" class="nav-link active" data-scroll-target="#context-and-goals"><span class="header-section-number">1</span> Context and Goals</a>
+  <li><a href="#context" id="toc-context" class="nav-link active" data-scroll-target="#context"><span class="header-section-number">0.1</span> Context</a></li>
+  <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals"><span class="header-section-number">0.2</span> Goals</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">1</span> Data</a>
   <ul class="collapse">
-  <li><a href="#context" id="toc-context" class="nav-link" data-scroll-target="#context"><span class="header-section-number">1.1</span> Context</a></li>
-  <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals"><span class="header-section-number">1.2</span> Goals</a></li>
+  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary"><span class="header-section-number">1.1</span> Data dictionary</a></li>
   </ul></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">2</span> Data</a>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model"><span class="header-section-number">2</span> Model</a>
   <ul class="collapse">
-  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary"><span class="header-section-number">2.1</span> Data dictionary</a></li>
-  <li><a href="#eda" id="toc-eda" class="nav-link" data-scroll-target="#eda"><span class="header-section-number">2.2</span> EDA</a></li>
+  <li><a href="#model-formula" id="toc-model-formula" class="nav-link" data-scroll-target="#model-formula"><span class="header-section-number">2.1</span> Model formula</a></li>
+  <li><a href="#implement-model" id="toc-implement-model" class="nav-link" data-scroll-target="#implement-model"><span class="header-section-number">2.2</span> Implement model</a></li>
+  <li><a href="#check-models" id="toc-check-models" class="nav-link" data-scroll-target="#check-models"><span class="header-section-number">2.3</span> Check models</a></li>
   </ul></li>
-  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model"><span class="header-section-number">3</span> Model</a>
-  <ul class="collapse">
-  <li><a href="#model-formula" id="toc-model-formula" class="nav-link" data-scroll-target="#model-formula"><span class="header-section-number">3.1</span> Model formula</a></li>
-  <li><a href="#implement-model" id="toc-implement-model" class="nav-link" data-scroll-target="#implement-model"><span class="header-section-number">3.2</span> Implement model</a></li>
-  <li><a href="#check-models" id="toc-check-models" class="nav-link" data-scroll-target="#check-models"><span class="header-section-number">3.3</span> Check models</a></li>
-  </ul></li>
-  <li><a href="#interpret-results" id="toc-interpret-results" class="nav-link" data-scroll-target="#interpret-results"><span class="header-section-number">4</span> Interpret results</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">5</span> References</a></li>
+  <li><a href="#interpret-results" id="toc-interpret-results" class="nav-link" data-scroll-target="#interpret-results"><span class="header-section-number">3</span> Interpret results</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">4</span> References</a></li>
   </ul>
 </nav>
 </div>
@@ -166,20 +162,6 @@ window.Quarto = {
 </header>
 
 
-<section id="context-and-goals" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Context and Goals</h1>
-<p>This section should describe all the important details about the context of the analysis and the objectives we aim to address with it.</p>
-<section id="context" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="context"><span class="header-section-number">1.1</span> Context</h2>
-<p>Describe all the details arround the analysis: where does the data come from, how was it generated, in which context are we analyzing it, is it in a bussiness or academix context? also, it is good to examine what assumptions, analysis methods, and visualization methods are usually used in this field. Cite referencies if required.</p>
-</section>
-<section id="goals" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="goals"><span class="header-section-number">1.2</span> Goals</h2>
-<p>Summarize what you want to know and conclude from the data. It is a good idea to itemize and prioritize them.</p>
-</section>
-</section>
-<section id="data" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Data</h1>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -207,37 +189,79 @@ rstan_options(threads_per_chain = 1)</code></pre>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rstan_options</span>(<span class="at">auto_write =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<section id="context" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="context"><span class="header-section-number">0.1</span> Context</h2>
+<p>The Scholastic Aptitude Test (SAT) measures the aptitude of high-schoolers in order to help colleges to make admissions decisions. It is divided into two parts, verbal (SAT-V) and mathematical (SAT-M). Our data comes from the SAT-V (Scholastic Aptitude Test-Verbal) on eight different high schools, from an experiment conducted in the late 1970s. SAT-V is a standard multiple choice test administered by the Educational Testing Service. This Service was interested in the effects of coaching programs for each of the selected schools.</p>
+</section>
+<section id="goals" class="level2" data-number="0.2">
+<h2 data-number="0.2" class="anchored" data-anchor-id="goals"><span class="header-section-number">0.2</span> Goals</h2>
+<p>Summarize what you want to know and conclude from the data. It is a good idea to itemize and prioritize them.</p>
+</section>
+<section id="data" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Data</h1>
+<p>The study included coached and uncoached pupils, about sixty in each of the eight different schools; see Rubin (1981). All of them had already taken the PSAT (Preliminary SAT) which results were used as covariates. For each school, the estimated treatment effect and the standard error of the effect estimate are given. These are calculated by an analysis of covariance adjustment appropriate for a completely randomized experiment (Rubin 1981). This example was analyzed using a hierarchical normal model in Rubin (1981) and Gelman, Carlin, Stern, and Rubin (2003, Section 5.5).</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>schools_dat <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">J =</span> <span class="dv">8</span>, </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">28</span>,  <span class="dv">8</span>, <span class="sc">-</span><span class="dv">3</span>,  <span class="dv">7</span>, <span class="sc">-</span><span class="dv">1</span>,  <span class="dv">1</span>, <span class="dv">18</span>, <span class="dv">12</span>),</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sigma =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">10</span>, <span class="dv">16</span>, <span class="dv">11</span>,  <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">10</span>, <span class="dv">18</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> <span class="fu">c</span>(<span class="fl">28.39</span>,  <span class="fl">7.94</span>, <span class="sc">-</span><span class="fl">2.75</span>,  <span class="fl">6.82</span>, <span class="sc">-</span><span class="fl">0.64</span>,  <span class="fl">0.63</span>, <span class="fl">18.01</span>, <span class="fl">12.16</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sigma =</span> <span class="fu">c</span>(<span class="fl">14.9</span>, <span class="fl">10.2</span>, <span class="fl">16.3</span>, <span class="fl">11.0</span>,  <span class="fl">9.4</span>, <span class="fl">11.4</span>, <span class="fl">10.4</span>, <span class="fl">17.6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="data-dictionary" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="data-dictionary"><span class="header-section-number">2.1</span> Data dictionary</h2>
+<section id="data-dictionary" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="data-dictionary"><span class="header-section-number">1.1</span> Data dictionary</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">"data-dictionary.csv"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kable</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">J</td>
+<td style="text-align: left;">Discrete</td>
+<td style="text-align: left;">Number of schools.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">y</td>
+<td style="text-align: left;">Continous</td>
+<td style="text-align: left;">Precalculated treatment effect for each school.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sigma</td>
+<td style="text-align: left;">Continous</td>
+<td style="text-align: left;">Standard error of the treatment effect.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
-<section id="eda" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="eda"><span class="header-section-number">2.2</span> EDA</h2>
 </section>
+<section id="model" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Model</h1>
+<section id="model-formula" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="model-formula"><span class="header-section-number">2.1</span> Model formula</h2>
+<p>For modeling these data, we use a hierarchical model as proposed by Gelman et al.&nbsp;(2003, Section 5.5). We assume a normal distribution for the observed estimate for each school with mean theta and inverse-variance tau.y. The inverse-variance is given as 1/sigma.y2 and its prior distribution is uniform on (0,1000). For the mean theta, we employ another normal distribution with mean mu.theta and inverse-variance tau.theta.</p>
+<p><span class="math display">\[Y[n] \sim \mathcal{N}(\mu, 1)\]</span></p>
 </section>
-<section id="model" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Model</h1>
-<p>Once we have understood the data through the variable dictionary and conducted a descriptive analysis to help infer the data-generating mechanism, we can then describe this mechanism using a model formula and implement it on our data.</p>
-<section id="model-formula" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="model-formula"><span class="header-section-number">3.1</span> Model formula</h2>
-<p>The mathematical formulas could help us realize an equivalent representation of the model, which could be a hint for efficient implementation.</p>
-<p>We show here this example taken from (Matsuura, 2023): suppose there are 20 data points Y [1], Y [2],…, Y [20] independently generated from a normal distribution with an unknown mean with standard deviation (SD) of 1. The model formula in this case is expressed as follows: <span class="math display">\[Y[n] \sim \mathcal{N}(\mu, 1)\]</span></p>
-</section>
-<section id="implement-model" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="implement-model"><span class="header-section-number">3.2</span> Implement model</h2>
+<section id="implement-model" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="implement-model"><span class="header-section-number">2.2</span> Implement model</h2>
 <p>Implement the model formula in a programming language for estimating the parameters with both simulated and real data.</p>
 <p>If we are running a stan model we can import the stan code from the .stan file in the directory. If we are using other dependencies like PyMC, we must try to fit all the implementation in one single chunk of code.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">file =</span> <span class="st">'model.stan'</span>, <span class="at">data =</span> schools_dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">file =</span> <span class="st">'model.stan'</span>, <span class="at">data =</span> schools_dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: There were 4 divergent transitions after warmup. See
@@ -249,17 +273,17 @@ to find out why this is a problem and how to eliminate them.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="check-models" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="check-models"><span class="header-section-number">3.3</span> Check models</h2>
+<section id="check-models" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="check-models"><span class="header-section-number">2.3</span> Check models</h2>
 <p>Check whether the true values are recovered from simulated data. This is called parameter recovery. If the true values cannot be recovered, fitting the model to real data will not provide useful information. Visualization is also very helpful to check the goodness of fit.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Inference for Stan model: anon_model.
@@ -267,27 +291,27 @@ to find out why this is a problem and how to eliminate them.</code></pre>
 post-warmup draws per chain=1000, total post-warmup draws=4000.
 
            mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat
-mu         7.68    0.14 5.09  -2.28   4.41   7.83  10.95  17.45  1266    1
-tau        6.38    0.13 5.33   0.22   2.31   5.16   9.10  19.93  1679    1
-eta[1]     0.43    0.02 0.93  -1.48  -0.19   0.45   1.04   2.21  3794    1
-eta[2]     0.03    0.01 0.85  -1.63  -0.53   0.02   0.59   1.75  3615    1
-eta[3]    -0.18    0.01 0.94  -2.09  -0.79  -0.18   0.45   1.65  4180    1
-eta[4]    -0.01    0.01 0.90  -1.77  -0.60  -0.01   0.60   1.71  3923    1
-eta[5]    -0.32    0.01 0.87  -2.00  -0.90  -0.34   0.25   1.47  3547    1
-eta[6]    -0.19    0.01 0.90  -1.98  -0.77  -0.19   0.39   1.63  4279    1
-eta[7]     0.33    0.01 0.88  -1.42  -0.24   0.33   0.90   2.06  3488    1
-eta[8]     0.07    0.02 0.93  -1.77  -0.56   0.07   0.69   1.86  3639    1
-theta[1]  11.39    0.15 8.33  -1.86   6.08  10.17  15.29  31.65  2936    1
-theta[2]   7.95    0.09 6.18  -4.49   4.15   7.93  11.68  20.84  4329    1
-theta[3]   5.94    0.14 7.85 -11.98   1.93   6.69  10.72  20.37  3324    1
-theta[4]   7.72    0.11 6.52  -5.23   3.70   7.78  11.74  20.91  3569    1
-theta[5]   5.12    0.10 6.39  -9.47   1.51   5.57   9.43  16.04  3847    1
-theta[6]   6.15    0.11 6.87  -9.35   2.30   6.64  10.53  19.05  3701    1
-theta[7]  10.33    0.11 6.69  -1.70   5.90   9.78  14.07  25.77  3688    1
-theta[8]   8.43    0.13 7.62  -6.51   3.97   8.22  12.54  24.25  3597    1
-lp__     -39.58    0.07 2.59 -45.60 -41.07 -39.34 -37.79 -35.14  1440    1
+mu         8.31    0.12 5.11  -1.40   4.97   8.22  11.52  18.59  1750    1
+tau        6.56    0.14 5.50   0.31   2.52   5.28   9.09  20.51  1487    1
+eta[1]     0.41    0.02 0.94  -1.48  -0.20   0.42   1.05   2.23  3607    1
+eta[2]    -0.02    0.01 0.87  -1.76  -0.59  -0.03   0.55   1.78  3705    1
+eta[3]    -0.19    0.02 0.91  -1.97  -0.81  -0.20   0.43   1.60  3452    1
+eta[4]    -0.07    0.01 0.88  -1.80  -0.68  -0.08   0.54   1.64  3556    1
+eta[5]    -0.33    0.02 0.89  -2.04  -0.93  -0.34   0.24   1.44  3172    1
+eta[6]    -0.25    0.01 0.88  -1.93  -0.83  -0.26   0.35   1.51  3597    1
+eta[7]     0.32    0.01 0.89  -1.46  -0.28   0.33   0.91   2.10  3693    1
+eta[8]     0.07    0.02 0.93  -1.78  -0.55   0.07   0.68   1.91  3398    1
+theta[1]  11.93    0.16 8.39  -1.74   6.29  10.73  16.26  31.98  2740    1
+theta[2]   8.06    0.10 6.40  -4.32   3.90   8.08  12.14  20.99  4434    1
+theta[3]   6.43    0.14 7.68 -10.81   2.31   6.89  11.21  20.22  3219    1
+theta[4]   7.70    0.10 6.71  -6.22   3.66   7.79  11.79  21.24  4232    1
+theta[5]   5.53    0.11 6.51  -8.84   1.65   5.98   9.89  17.23  3736    1
+theta[6]   6.20    0.11 6.72  -8.30   2.23   6.65  10.54  18.34  3691    1
+theta[7]  10.72    0.12 6.76  -1.16   6.24  10.35  14.62  26.14  3095    1
+theta[8]   8.85    0.14 7.76  -6.03   4.03   8.64  13.21  24.99  3259    1
+lp__     -39.57    0.07 2.56 -45.19 -41.16 -39.38 -37.76 -35.17  1376    1
 
-Samples were drawn using NUTS(diag_e) at Sat Dec  7 23:07:24 2024.
+Samples were drawn using NUTS(diag_e) at Sat Dec 14 19:00:21 2024.
 For each parameter, n_eff is a crude measure of effective sample size,
 and Rhat is the potential scale reduction factor on split chains (at 
 convergence, Rhat=1).</code></pre>
@@ -296,7 +320,7 @@ convergence, Rhat=1).</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>'pars' not specified. Showing first 10 parameters by default.</code></pre>
@@ -310,7 +334,7 @@ convergence, Rhat=1).</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="eight-schools_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eight-schools_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -318,7 +342,7 @@ convergence, Rhat=1).</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"mu"</span>, <span class="st">"tau"</span>, <span class="st">"lp__"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"mu"</span>, <span class="st">"tau"</span>, <span class="st">"lp__"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in par(usr): argument 1 does not name a graphical parameter
@@ -330,20 +354,23 @@ Warning in par(usr): argument 1 does not name a graphical parameter</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="eight-schools_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eight-schools_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
 </section>
-<section id="interpret-results" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Interpret results</h1>
+<section id="interpret-results" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Interpret results</h1>
 <p>Interpret and visualize the estimated results to solve the problem set in section 1.2. It is also recommended in this section to make an effort to present the results with storytelling that is understandable to the intended audience. These results can be accompanied by visualizations, but it is essential to ensure that they align with the storytelling and remain accessible.</p>
 </section>
-<section id="references" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> References</h1>
-<p>List all the references used for the analysis.</p>
+<section id="references" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> References</h1>
+<ul>
+<li>Gelman, A., Carlin, J. B., Stern, H. S., and Rubin, D. B. (2003). Bayesian Data Analysis, CRC Press, London, 2nd Edition.</li>
+<li>Rubin DB (1981). “Estimation in Parallel Randomized Experiments.” Journal of Educational Statistics, 6, 377–400.</li>
+</ul>
 </section>
 
 </main>
