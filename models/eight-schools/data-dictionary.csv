@@ -1,0 +1,4 @@
+name; type; description 
+J; Discrete; Number of schools.
+y; Continous; Precalculated treatment effect for each school.
+sigma; Continous; Standard error of the treatment effect.
