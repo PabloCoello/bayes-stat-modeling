@@ -1,0 +1,173 @@
+---
+title: "Eight Schools analysis"
+author: "Pablo Coello Pulido"
+date: "07/12/2024"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+    number-sections: true
+    theme:
+      light: flatly
+      dark: darkly
+---
+
+```{r}
+#| code-fold: true
+#| warning: false
+#| output: false
+library("ggplot2")
+library("dplyr")
+library("tidyr")
+library("rstan")
+options(mc.cores = parallel::detectCores())
+rstan_options(auto_write = TRUE)
+```
+
+# Context and goals
+The Scholastic Aptitude Test (SAT) measures the aptitude of high-schoolers in order to help colleges to make admissions decisions. It is divided into two parts, verbal (SAT-V) and mathematical (SAT-M). Our data comes from the SAT-V (Scholastic Aptitude Test-Verbal) on eight different high schools, from an experiment conducted in the late 1970s. SAT-V is a standard multiple choice test administered by the Educational Testing Service. This Service was interested in the effects of coaching programs for each of the selected schools.
+
+
+# Data
+
+The study included coached and uncoached pupils, about sixty in each of the eight different schools; see Rubin (1981). All of them had already taken the PSAT (Preliminary SAT) which results were used as covariates. For each school, the estimated treatment effect and the standard error of the effect estimate are given. These are calculated by an analysis of covariance adjustment appropriate for a completely randomized experiment (Rubin 1981). This example was analyzed using a hierarchical normal model in Rubin (1981) and Gelman, Carlin, Stern, and Rubin (2003, Section 5.5).
+
+```{r}
+#| warning: false
+schools_dat <- list(
+  J = 8, 
+  y = c(28.39,  7.94, -2.75,  6.82, -0.64,  0.63, 18.01, 12.16),
+  sigma = c(14.9, 10.2, 16.3, 11.0,  9.4, 11.4, 10.4, 17.6)
+)
+schools_df <- data.frame(
+  J = c(1:8), 
+  y = c(28.39,  7.94, -2.75,  6.82, -0.64,  0.63, 18.01, 12.16),
+  sigma = c(14.9, 10.2, 16.3, 11.0,  9.4, 11.4, 10.4, 17.6)
+) %>%
+  mutate(treatment_effects_p_stddevs = y + sigma,
+         treatment_effects_m_stddevs = y - sigma)
+```
+
+For each of the eight schools, we have an estimated treatment effect and a standard error of the effect estimate. The treatment effects in the study were obtained by a linear regression on the treatment group using PSAT-M and PSAT-V scores as control variables. As there was no prior belief that any of the schools were more or less similar or that any of the coaching programs would be more effective, we can consider the treatment effects as exchangeable.
+
+## Data dictionary
+
+```{r}
+#| warning: false
+#| code-fold: true
+df <- read.csv2("data-dictionary.csv")
+kableExtra::kable(df)
+```
+
+## EDA
+
+```{r}
+#| warning: false
+#| code-fold: true
+ggplot(schools_df, aes(x = J, y = y)) +
+  geom_bar(stat = "identity", fill = "blue", alpha = 0.5) +
+  geom_errorbar(aes(ymin = treatment_effects_m_stddevs, ymax = treatment_effects_p_stddevs), width = 0.3) +
+  labs(x = "school", y = "treatment effect",
+       title = "Barplot of treatment effects for eight schools",
+       subtitle = "Error bars represent standard error")
+```
+
+A different way to plot the estimated effects and their standard errors is to plot the density distribution over the eight schools we have:
+
+```{r}
+#| warning: false
+#| code-fold: true
+df_long <- schools_df %>%
+  pivot_longer(
+    cols = c("y", "treatment_effects_m_stddevs", "treatment_effects_p_stddevs"), 
+    names_to = "variable", 
+    values_to = "value"    
+  )
+
+# Crear el gráfico de densidad
+ggplot(df_long, aes(x = value, color = variable, fill = variable)) +
+  geom_density(alpha = 0.4) + 
+  theme_minimal() +
+  labs(
+    title = "Density plot of treatment effects +/- standard error for eight schools",
+    x = "treatment effect (+/- standard error)",
+    y = "Density"
+  )
+```
+# Model
+For modeling these data, we use a hierarchical model as proposed by Gelman et al. (2003, Section 5.5).
+
+## Model formula
+To capture the data, we use a hierarchical normal model. It follows the generative process:
+
+$$\mu \sim \mathcal{N}(0, 1)$$
+
+$$ \log \tau \sim \mathcal{N}(5, 1)$$
+
+for $i=1...8$:
+$$\eta_i \sim \mathcal{N}(0, 1)$$
+$$\theta_i = \mu + \tau\eta_i$$
+
+$$y_i \sim \mathcal{N}(\theta_i, \sigma_i)$$
+
+## Implement model
+We use the following stan code to implement the model:
+
+```{r}
+#| eval: false
+
+data {
+  int<lower=0> J;         // number of schools 
+  array[J] real y;              // estimated treatment effects
+  array[J] real<lower=0> sigma; // standard error of effect estimates 
+}
+parameters {
+  real mu;                // population treatment effect
+  real<lower=0> tau;      // standard deviation in treatment effects
+  vector[J] eta;          // unscaled deviation from mu by school
+}
+transformed parameters {
+  vector[J] theta = mu + tau * eta;        // school treatment effects
+}
+model {
+  target += normal_lpdf(eta | 0, 1);       // prior log-density
+  target += normal_lpdf(y | theta, sigma); // log-likelihood
+}
+```
+
+The following code runs the model:
+
+```{r}
+#| code-fold: true
+#| warning: false
+fit <- stan(file = 'model.stan', data = schools_dat)
+d <- as.data.frame(fit)
+```
+
+# Interpret results
+In the following table we can see a summary of the distributions of the posterior estimates:
+
+```{r}
+#| code-fold: true
+#| warning: false
+print(fit)
+```
+
+```{r}
+#| code-fold: true
+#| warning: false
+plot(fit, pars=names(fit))
+```
+
+```{r}
+#| code-fold: true
+#| warning: false
+pairs(fit, pars = c("mu", "tau", "lp__"))
+```
+
+
+
+# References
+* Gelman, A., Carlin, J. B., Stern, H. S., and Rubin, D. B. (2003). Bayesian Data Analysis, CRC Press, London, 2nd Edition.
+* Rubin DB (1981). “Estimation in Parallel Randomized Experiments.” Journal of Educational Statistics, 6, 377–400.
