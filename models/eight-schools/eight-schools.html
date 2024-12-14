@@ -112,20 +112,19 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#context" id="toc-context" class="nav-link active" data-scroll-target="#context"><span class="header-section-number">0.1</span> Context</a></li>
-  <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals"><span class="header-section-number">0.2</span> Goals</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">1</span> Data</a>
+  <li><a href="#context-and-goals" id="toc-context-and-goals" class="nav-link active" data-scroll-target="#context-and-goals"><span class="header-section-number">1</span> Context and goals</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">2</span> Data</a>
   <ul class="collapse">
-  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary"><span class="header-section-number">1.1</span> Data dictionary</a></li>
+  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary"><span class="header-section-number">2.1</span> Data dictionary</a></li>
+  <li><a href="#eda" id="toc-eda" class="nav-link" data-scroll-target="#eda"><span class="header-section-number">2.2</span> EDA</a></li>
   </ul></li>
-  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model"><span class="header-section-number">2</span> Model</a>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model"><span class="header-section-number">3</span> Model</a>
   <ul class="collapse">
-  <li><a href="#model-formula" id="toc-model-formula" class="nav-link" data-scroll-target="#model-formula"><span class="header-section-number">2.1</span> Model formula</a></li>
-  <li><a href="#implement-model" id="toc-implement-model" class="nav-link" data-scroll-target="#implement-model"><span class="header-section-number">2.2</span> Implement model</a></li>
-  <li><a href="#check-models" id="toc-check-models" class="nav-link" data-scroll-target="#check-models"><span class="header-section-number">2.3</span> Check models</a></li>
+  <li><a href="#model-formula" id="toc-model-formula" class="nav-link" data-scroll-target="#model-formula"><span class="header-section-number">3.1</span> Model formula</a></li>
+  <li><a href="#implement-model" id="toc-implement-model" class="nav-link" data-scroll-target="#implement-model"><span class="header-section-number">3.2</span> Implement model</a></li>
   </ul></li>
-  <li><a href="#interpret-results" id="toc-interpret-results" class="nav-link" data-scroll-target="#interpret-results"><span class="header-section-number">3</span> Interpret results</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">4</span> References</a></li>
+  <li><a href="#interpret-results" id="toc-interpret-results" class="nav-link" data-scroll-target="#interpret-results"><span class="header-section-number">4</span> Interpret results</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">5</span> References</a></li>
   </ul>
 </nav>
 </div>
@@ -165,56 +164,43 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rstan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: StanHeaders</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-rstan version 2.32.5 (Stan version 2.32.2)</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>For execution on a local, multicore CPU with excess RAM we recommend calling
-options(mc.cores = parallel::detectCores()).
-To avoid recompilation of unchanged Stan programs, we recommend calling
-rstan_options(auto_write = TRUE)
-For within-chain threading using `reduce_sum()` or `map_rect()` Stan functions,
-change `threads_per_chain` option:
-rstan_options(threads_per_chain = 1)</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rstan_options</span>(<span class="at">auto_write =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidyr"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rstan"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rstan_options</span>(<span class="at">auto_write =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="context" class="level2" data-number="0.1">
-<h2 data-number="0.1" class="anchored" data-anchor-id="context"><span class="header-section-number">0.1</span> Context</h2>
+<section id="context-and-goals" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Context and goals</h1>
 <p>The Scholastic Aptitude Test (SAT) measures the aptitude of high-schoolers in order to help colleges to make admissions decisions. It is divided into two parts, verbal (SAT-V) and mathematical (SAT-M). Our data comes from the SAT-V (Scholastic Aptitude Test-Verbal) on eight different high schools, from an experiment conducted in the late 1970s. SAT-V is a standard multiple choice test administered by the Educational Testing Service. This Service was interested in the effects of coaching programs for each of the selected schools.</p>
 </section>
-<section id="goals" class="level2" data-number="0.2">
-<h2 data-number="0.2" class="anchored" data-anchor-id="goals"><span class="header-section-number">0.2</span> Goals</h2>
-<p>Summarize what you want to know and conclude from the data. It is a good idea to itemize and prioritize them.</p>
-</section>
-<section id="data" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Data</h1>
+<section id="data" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Data</h1>
 <p>The study included coached and uncoached pupils, about sixty in each of the eight different schools; see Rubin (1981). All of them had already taken the PSAT (Preliminary SAT) which results were used as covariates. For each school, the estimated treatment effect and the standard error of the effect estimate are given. These are calculated by an analysis of covariance adjustment appropriate for a completely randomized experiment (Rubin 1981). This example was analyzed using a hierarchical normal model in Rubin (1981) and Gelman, Carlin, Stern, and Rubin (2003, Section 5.5).</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>schools_dat <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">J =</span> <span class="dv">8</span>, </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> <span class="fu">c</span>(<span class="fl">28.39</span>,  <span class="fl">7.94</span>, <span class="sc">-</span><span class="fl">2.75</span>,  <span class="fl">6.82</span>, <span class="sc">-</span><span class="fl">0.64</span>,  <span class="fl">0.63</span>, <span class="fl">18.01</span>, <span class="fl">12.16</span>),</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sigma =</span> <span class="fu">c</span>(<span class="fl">14.9</span>, <span class="fl">10.2</span>, <span class="fl">16.3</span>, <span class="fl">11.0</span>,  <span class="fl">9.4</span>, <span class="fl">11.4</span>, <span class="fl">10.4</span>, <span class="fl">17.6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>schools_dat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">J =</span> <span class="dv">8</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="fl">28.39</span>,  <span class="fl">7.94</span>, <span class="sc">-</span><span class="fl">2.75</span>,  <span class="fl">6.82</span>, <span class="sc">-</span><span class="fl">0.64</span>,  <span class="fl">0.63</span>, <span class="fl">18.01</span>, <span class="fl">12.16</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma =</span> <span class="fu">c</span>(<span class="fl">14.9</span>, <span class="fl">10.2</span>, <span class="fl">16.3</span>, <span class="fl">11.0</span>,  <span class="fl">9.4</span>, <span class="fl">11.4</span>, <span class="fl">10.4</span>, <span class="fl">17.6</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>schools_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">J =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>), </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="fl">28.39</span>,  <span class="fl">7.94</span>, <span class="sc">-</span><span class="fl">2.75</span>,  <span class="fl">6.82</span>, <span class="sc">-</span><span class="fl">0.64</span>,  <span class="fl">0.63</span>, <span class="fl">18.01</span>, <span class="fl">12.16</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma =</span> <span class="fu">c</span>(<span class="fl">14.9</span>, <span class="fl">10.2</span>, <span class="fl">16.3</span>, <span class="fl">11.0</span>,  <span class="fl">9.4</span>, <span class="fl">11.4</span>, <span class="fl">10.4</span>, <span class="fl">17.6</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treatment_effects_p_stddevs =</span> y <span class="sc">+</span> sigma,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">treatment_effects_m_stddevs =</span> y <span class="sc">-</span> sigma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="data-dictionary" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="data-dictionary"><span class="header-section-number">1.1</span> Data dictionary</h2>
+<p>For each of the eight schools, we have an estimated treatment effect and a standard error of the effect estimate. The treatment effects in the study were obtained by a linear regression on the treatment group using PSAT-M and PSAT-V scores as control variables. As there was no prior belief that any of the schools were more or less similar or that any of the coaching programs would be more effective, we can consider the treatment effects as exchangeable.</p>
+<section id="data-dictionary" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="data-dictionary"><span class="header-section-number">2.1</span> Data dictionary</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">"data-dictionary.csv"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kable</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">"data-dictionary.csv"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kable</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -246,44 +232,107 @@ rstan_options(threads_per_chain = 1)</code></pre>
 </div>
 </div>
 </section>
-</section>
-<section id="model" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Model</h1>
-<section id="model-formula" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="model-formula"><span class="header-section-number">2.1</span> Model formula</h2>
-<p>For modeling these data, we use a hierarchical model as proposed by Gelman et al.&nbsp;(2003, Section 5.5). We assume a normal distribution for the observed estimate for each school with mean theta and inverse-variance tau.y. The inverse-variance is given as 1/sigma.y2 and its prior distribution is uniform on (0,1000). For the mean theta, we employ another normal distribution with mean mu.theta and inverse-variance tau.theta.</p>
-<p><span class="math display">\[Y[n] \sim \mathcal{N}(\mu, 1)\]</span></p>
-</section>
-<section id="implement-model" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="implement-model"><span class="header-section-number">2.2</span> Implement model</h2>
-<p>Implement the model formula in a programming language for estimating the parameters with both simulated and real data.</p>
-<p>If we are running a stan model we can import the stan code from the .stan file in the directory. If we are using other dependencies like PyMC, we must try to fit all the implementation in one single chunk of code.</p>
+<section id="eda" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="eda"><span class="header-section-number">2.2</span> EDA</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">file =</span> <span class="st">'model.stan'</span>, <span class="at">data =</span> schools_dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(schools_df, <span class="fu">aes</span>(<span class="at">x =</span> J, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> treatment_effects_m_stddevs, <span class="at">ymax =</span> treatment_effects_p_stddevs), <span class="at">width =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"school"</span>, <span class="at">y =</span> <span class="st">"treatment effect"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Barplot of treatment effects for eight schools"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Error bars represent standard error"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: There were 4 divergent transitions after warmup. See
-https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
-to find out why this is a problem and how to eliminate them.</code></pre>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eight-schools_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
 </div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
-</section>
-<section id="check-models" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="check-models"><span class="header-section-number">2.3</span> Check models</h2>
-<p>Check whether the true values are recovered from simulated data. This is called parameter recovery. If the true values cannot be recovered, fitting the model to real data will not provide useful information. Visualization is also very helpful to check the goodness of fit.</p>
+<p>A different way to plot the estimated effects and their standard errors is to plot the density distribution over the eight schools we have:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> schools_df <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"y"</span>, <span class="st">"treatment_effects_m_stddevs"</span>, <span class="st">"treatment_effects_p_stddevs"</span>), </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"variable"</span>, </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"value"</span>    </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear el gráfico de densidad</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_long, <span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">color =</span> variable, <span class="at">fill =</span> variable)) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Density plot of treatment effects +/- standard error for eight schools"</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"treatment effect (+/- standard error)"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Density"</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eight-schools_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="model" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Model</h1>
+<p>For modeling these data, we use a hierarchical model as proposed by Gelman et al.&nbsp;(2003, Section 5.5).</p>
+<section id="model-formula" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="model-formula"><span class="header-section-number">3.1</span> Model formula</h2>
+<p>To capture the data, we use a hierarchical normal model. It follows the generative process:</p>
+<p><span class="math display">\[\mu \sim \mathcal{N}(0, 1)\]</span></p>
+<p><span class="math display">\[ \log \tau \sim \mathcal{N}(5, 1)\]</span></p>
+<p>for <span class="math inline">\(i=1...8\)</span>: <span class="math display">\[\eta_i \sim \mathcal{N}(0, 1)\]</span> <span class="math display">\[\theta_i = \mu + \tau\eta_i\]</span></p>
+<p><span class="math display">\[y_i \sim \mathcal{N}(\theta_i, \sigma_i)\]</span></p>
+</section>
+<section id="implement-model" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="implement-model"><span class="header-section-number">3.2</span> Implement model</h2>
+<p>We use the following stan code to implement the model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> J;         <span class="sc">/</span><span class="er">/</span> number of schools </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  array[J] real y;              <span class="sc">/</span><span class="er">/</span> estimated treatment effects</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  array[J] real<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> sigma; <span class="sc">/</span><span class="er">/</span> standard error of effect estimates </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>parameters {</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  real mu;                <span class="sc">/</span><span class="er">/</span> population treatment effect</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  real<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> tau;      <span class="sc">/</span><span class="er">/</span> standard deviation <span class="cf">in</span> treatment effects</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  vector[J] eta;          <span class="sc">/</span><span class="er">/</span> unscaled deviation from mu by school</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>transformed parameters {</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  vector[J] theta <span class="ot">=</span> mu <span class="sc">+</span> tau <span class="sc">*</span> eta;        <span class="sc">/</span><span class="er">/</span> school treatment effects</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>model {</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  target <span class="sc">+</span><span class="er">=</span> <span class="fu">normal_lpdf</span>(eta <span class="sc">|</span> <span class="dv">0</span>, <span class="dv">1</span>);       <span class="sc">/</span><span class="er">/</span> prior log<span class="sc">-</span>density</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  target <span class="sc">+</span><span class="er">=</span> <span class="fu">normal_lpdf</span>(y <span class="sc">|</span> theta, sigma); <span class="sc">/</span><span class="er">/</span> log<span class="sc">-</span>likelihood</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The following code runs the model:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">file =</span> <span class="st">'model.stan'</span>, <span class="at">data =</span> schools_dat)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="interpret-results" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Interpret results</h1>
+<p>In the following table we can see a summary of the distributions of the posterior estimates:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Inference for Stan model: anon_model.
@@ -291,27 +340,27 @@ to find out why this is a problem and how to eliminate them.</code></pre>
 post-warmup draws per chain=1000, total post-warmup draws=4000.
 
            mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat
-mu         8.31    0.12 5.11  -1.40   4.97   8.22  11.52  18.59  1750    1
-tau        6.56    0.14 5.50   0.31   2.52   5.28   9.09  20.51  1487    1
-eta[1]     0.41    0.02 0.94  -1.48  -0.20   0.42   1.05   2.23  3607    1
-eta[2]    -0.02    0.01 0.87  -1.76  -0.59  -0.03   0.55   1.78  3705    1
-eta[3]    -0.19    0.02 0.91  -1.97  -0.81  -0.20   0.43   1.60  3452    1
-eta[4]    -0.07    0.01 0.88  -1.80  -0.68  -0.08   0.54   1.64  3556    1
-eta[5]    -0.33    0.02 0.89  -2.04  -0.93  -0.34   0.24   1.44  3172    1
-eta[6]    -0.25    0.01 0.88  -1.93  -0.83  -0.26   0.35   1.51  3597    1
-eta[7]     0.32    0.01 0.89  -1.46  -0.28   0.33   0.91   2.10  3693    1
-eta[8]     0.07    0.02 0.93  -1.78  -0.55   0.07   0.68   1.91  3398    1
-theta[1]  11.93    0.16 8.39  -1.74   6.29  10.73  16.26  31.98  2740    1
-theta[2]   8.06    0.10 6.40  -4.32   3.90   8.08  12.14  20.99  4434    1
-theta[3]   6.43    0.14 7.68 -10.81   2.31   6.89  11.21  20.22  3219    1
-theta[4]   7.70    0.10 6.71  -6.22   3.66   7.79  11.79  21.24  4232    1
-theta[5]   5.53    0.11 6.51  -8.84   1.65   5.98   9.89  17.23  3736    1
-theta[6]   6.20    0.11 6.72  -8.30   2.23   6.65  10.54  18.34  3691    1
-theta[7]  10.72    0.12 6.76  -1.16   6.24  10.35  14.62  26.14  3095    1
-theta[8]   8.85    0.14 7.76  -6.03   4.03   8.64  13.21  24.99  3259    1
-lp__     -39.57    0.07 2.56 -45.19 -41.16 -39.38 -37.76 -35.17  1376    1
+mu         8.00    0.12 5.28  -2.55   4.77   7.93  11.16  18.35  1876    1
+tau        6.71    0.15 5.63   0.20   2.51   5.36   9.47  21.15  1505    1
+eta[1]     0.42    0.01 0.96  -1.49  -0.23   0.44   1.06   2.27  4443    1
+eta[2]     0.01    0.01 0.89  -1.76  -0.57   0.01   0.59   1.74  4268    1
+eta[3]    -0.22    0.01 0.95  -2.14  -0.86  -0.21   0.39   1.69  4821    1
+eta[4]    -0.03    0.01 0.87  -1.73  -0.63  -0.02   0.54   1.70  4782    1
+eta[5]    -0.31    0.01 0.90  -2.06  -0.90  -0.32   0.25   1.51  3824    1
+eta[6]    -0.21    0.01 0.88  -1.95  -0.80  -0.24   0.38   1.52  4723    1
+eta[7]     0.34    0.01 0.86  -1.44  -0.21   0.37   0.92   1.97  4343    1
+eta[8]     0.06    0.01 0.91  -1.73  -0.55   0.04   0.66   1.86  5318    1
+theta[1]  11.78    0.17 8.70  -2.41   6.22  10.54  15.96  32.99  2572    1
+theta[2]   7.96    0.10 6.30  -4.60   3.95   7.94  11.88  20.72  4270    1
+theta[3]   6.09    0.12 7.88 -11.75   2.10   6.54  10.81  20.68  4103    1
+theta[4]   7.65    0.09 6.48  -5.50   3.82   7.73  11.58  20.70  4797    1
+theta[5]   5.33    0.11 6.55  -8.90   1.47   5.85   9.64  17.04  3582    1
+theta[6]   6.06    0.10 6.89  -9.25   2.15   6.50  10.46  18.70  4372    1
+theta[7]  10.79    0.12 6.85  -1.37   6.28  10.16  14.67  26.09  3244    1
+theta[8]   8.35    0.12 7.76  -7.16   3.85   8.17  12.56  25.00  3910    1
+lp__     -39.61    0.07 2.62 -45.41 -41.19 -39.45 -37.68 -35.19  1341    1
 
-Samples were drawn using NUTS(diag_e) at Sat Dec 14 19:00:21 2024.
+Samples were drawn using NUTS(diag_e) at Sat Dec 14 20:15:00 2024.
 For each parameter, n_eff is a crude measure of effective sample size,
 and Rhat is the potential scale reduction factor on split chains (at 
 convergence, Rhat=1).</code></pre>
@@ -320,21 +369,12 @@ convergence, Rhat=1).</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">pars=</span><span class="fu">names</span>(fit))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>'pars' not specified. Showing first 10 parameters by default.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>ci_level: 0.8 (80% intervals)</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>outer_level: 0.95 (95% intervals)</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="eight-schools_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eight-schools_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -342,31 +382,19 @@ convergence, Rhat=1).</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"mu"</span>, <span class="st">"tau"</span>, <span class="st">"lp__"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"mu"</span>, <span class="st">"tau"</span>, <span class="st">"lp__"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in par(usr): argument 1 does not name a graphical parameter
-
-Warning in par(usr): argument 1 does not name a graphical parameter
-
-Warning in par(usr): argument 1 does not name a graphical parameter</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="eight-schools_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eight-schools_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-</section>
-<section id="interpret-results" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Interpret results</h1>
-<p>Interpret and visualize the estimated results to solve the problem set in section 1.2. It is also recommended in this section to make an effort to present the results with storytelling that is understandable to the intended audience. These results can be accompanied by visualizations, but it is essential to ensure that they align with the storytelling and remain accessible.</p>
-</section>
-<section id="references" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> References</h1>
+<section id="references" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> References</h1>
 <ul>
 <li>Gelman, A., Carlin, J. B., Stern, H. S., and Rubin, D. B. (2003). Bayesian Data Analysis, CRC Press, London, 2nd Edition.</li>
 <li>Rubin DB (1981). “Estimation in Parallel Randomized Experiments.” Journal of Educational Statistics, 6, 377–400.</li>
