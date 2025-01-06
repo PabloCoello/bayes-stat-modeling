@@ -1,5 +1,5 @@
 # bayes-stat-modeling
-This repository is dedicated to hosting examples of statistical modeling using the Bayesian approach. Additionally, it also includes templates for documenting analyses with best practices, useful references, and an execution environment for analyses with validated dependencies.
+This repository is dedicated to host analysis following the bayesian workflow proposed by (Gelman et al., 2020). Additionally, it also includes templates for documenting analyses with best practices, useful references, and an execution environment with validated dependencies.
 
 # Structure of this repo
 This repo is organized in the following fashion:
@@ -13,6 +13,8 @@ bayes-stat-modeling/
 │   │   ├── requirements.txt
 │   │   ├── requirements-src.R
 │   │   └── requirements-bin.txt
+├── templates/
+│   ├── bayesian-analysis.qmd
 ├── models/
 │   ├── model1/
 │   │   ├── model.stan
@@ -21,11 +23,9 @@ bayes-stat-modeling/
 │   │   ├── model.stan
 │   │   └── model2-analysis.qmd
 │   └── .../
-├── templates/
-│   ├── bayesian-analysis.qmd
-│   └── data-dictionary.csv
 ├── data/
-│   └── data-files.csv
+│   └── data-file.csv
+│   └── data-dictionary.csv
 ├── model-comparison.qmd
 ├── README.md
 └── .gitignore
@@ -37,16 +37,27 @@ The `models` folder contains individual folders for each modelization. Each of t
 
 The `templates` folder contains base templates builded following good practices to follow at the time of building statistical models.
 
-The `data` folder contains the data required for the analysis in case that we are willing to store it locally.
+The `data` folder contains the data required for the analysis in case that we are willing to store it locally. It also contains the data dictionary with information to understand the data files.
 
 `report.qmd` summarizes the final results of our analysis after applying and comparing all the models in the `models` folder.
 
 # Models
 It is recommended to detail in this space the different models that have been applied in the 'models' folder to allow for quick access in the future.
 
-| Model id |Description | Final model |
+| Model id |Description | Result |
 |---|---|---|
-| eight-schools | Eight schools model estimated in Gelman et al (2003) | Yes |
+| eight-schools | Eight schools model estimated in Gelman et al (2003) | Final model |
+
+The fields in the table should be filled with the folloring information:
+
+* **Model id**: A short code or name for an specific modelization.
+* **Description**: A short description o what was attemped in this specific modelization that is different from the others.
+* **Result**: One of the following possible results:
+  * __Prior contradicts domain knowledge__: This model is not provisionally accepted because priors contradict domain knowledge.
+  * __Computation is not valid__: This model is not provisionally accepted because it didn't pass the computation check.
+  * __Model is not trustworthy__: This model is not provisionally accepted because it didn't pass the evaluation check.
+  * __Model is provissionaly accepted__: This model is provisionally accepted and is considered in the model comparison step.
+  * __Final model__: This is the final modelization for our analysis.
 
 # How to use this repository
 This repository has been designed to work with the Bayesian workflow proposed by (Gelman et al., 2020).
