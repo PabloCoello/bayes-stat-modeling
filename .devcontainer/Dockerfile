@@ -21,7 +21,6 @@ RUN apt-get update && apt-get install -y \
     locales \
     pandoc \
     pandoc-citeproc \
-    libv8-dev \
     python3 \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*

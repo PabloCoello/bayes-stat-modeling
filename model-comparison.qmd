@@ -1,0 +1,113 @@
+---
+title: "Model Comparison"
+author: "Author Name"
+date: "`r Sys.Date()`"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: true
+    number-sections: true
+    theme:
+      light: flatly
+      dark: darkly
+---
+
+# Introduction
+
+This document compares the different models that have been provisionally accepted from the Bayesian workflow analysis. The goal is to select the final model that best fits the data and addresses the research questions.
+
+# Models Under Comparison
+
+List and briefly describe each model being compared:
+
+- **Model 1**: [Brief description]
+- **Model 2**: [Brief description]
+- **Model N**: [Brief description]
+
+# Comparison Criteria
+
+## Predictive Performance
+
+Compare models based on their predictive accuracy using appropriate metrics:
+
+- **ELPD (Expected Log Predictive Density)**: Compare using LOO-CV or WAIC
+- **RMSE (Root Mean Square Error)**: For continuous outcomes
+- **Classification metrics**: For categorical outcomes
+
+## Model Complexity
+
+- **Effective number of parameters**: Balance between fit and parsimony
+- **DIC/WAIC**: Information criteria that penalize complexity
+
+## Domain Knowledge Alignment
+
+- Check if model assumptions align with domain knowledge
+- Verify that parameter estimates are in reasonable ranges
+- Assess interpretability of the model
+
+## Computational Efficiency
+
+- Convergence diagnostics (Rhat, effective sample size)
+- Runtime comparisons
+- Sampling efficiency
+
+# Detailed Comparison
+
+## Cross-Validation Results
+
+```{r}
+#| eval: false
+#| warning: false
+
+# Example code for LOO-CV comparison
+# library(loo)
+# loo1 <- loo(model1)
+# loo2 <- loo(model2)
+# loo_compare(loo1, loo2)
+```
+
+## Posterior Predictive Checks
+
+Compare how well each model can reproduce the observed data:
+
+```{r}
+#| eval: false
+#| warning: false
+
+# Example posterior predictive check code
+# bayesplot::ppc_dens_overlay(y, yrep)
+```
+
+## Parameter Estimates Comparison
+
+Compare key parameter estimates across models:
+
+```{r}
+#| eval: false
+#| warning: false
+
+# Compare parameter estimates
+# Create comparison tables or plots
+```
+
+# Decision
+
+Based on the comparison criteria above, we select **[Model Name]** as the final model because:
+
+1. **Reason 1**: [Detailed justification]
+2. **Reason 2**: [Detailed justification]
+3. **Reason 3**: [Detailed justification]
+
+# Final Model Summary
+
+Provide a summary of the selected model:
+
+- Model specification
+- Key findings
+- Limitations
+- Recommendations for future work
+
+# References
+
+List all references used in the model comparison.
