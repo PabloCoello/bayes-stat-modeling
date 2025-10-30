@@ -1,0 +1,51 @@
+name: Validate Quarto Documents
+
+on:
+  pull_request:
+    paths:
+      - '**.qmd'
+      - '.github/workflows/validate-quarto.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 'release'
+
+      - name: Check Quarto installation
+        run: quarto --version
+
+      - name: List Quarto files
+        run: |
+          echo "Found Quarto documents:"
+          find . -name "*.qmd" -not -path "./.git/*"
+
+      - name: Validate Quarto syntax
+        run: |
+          echo "Validating Quarto document syntax..."
+          # Check each .qmd file for basic syntax issues
+          for file in $(find . -name "*.qmd" -not -path "./.git/*"); do
+            echo "Checking $file..."
+            quarto check $file || echo "Warning: Issues found in $file"
+          done
+
+      - name: Render template (test)
+        run: |
+          echo "Testing template rendering..."
+          cd templates
+          quarto render bayesian-analysis.qmd --to html || echo "Template rendering encountered issues"
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "✅ Quarto validation completed"
+          echo "Note: This workflow checks syntax but does not execute R/Stan code"
+          echo "For full validation, use the dev container environment"

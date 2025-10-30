@@ -1,5 +1,35 @@
 # bayes-stat-modeling
-This repository is dedicated to host analysis following the bayesian workflow proposed by (Gelman et al., 2020). Additionally, it also includes templates for documenting analyses with best practices, useful references, and an execution environment with validated dependencies.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Validate Quarto](https://github.com/PabloCoello/bayes-stat-modeling/workflows/Validate%20Quarto%20Documents/badge.svg)](https://github.com/PabloCoello/bayes-stat-modeling/actions)
+
+This repository is dedicated to host analysis following the Bayesian workflow proposed by Gelman et al. (2020). Additionally, it also includes templates for documenting analyses with best practices, useful references, and an execution environment with validated dependencies.
+
+## Key Features
+
+- 🎯 **Structured Workflow**: Follows the Bayesian workflow from Gelman et al. (2020)
+- 📦 **Ready-to-use Environment**: Docker dev container with R, Python, Stan, and Quarto
+- 📝 **Documentation Templates**: Pre-built templates for consistent analysis documentation
+- 🔬 **Example Models**: Working examples like the eight schools hierarchical model
+- 🤝 **Contribution Ready**: Complete with issue templates and contribution guidelines
+
+## Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/PabloCoello/bayes-stat-modeling.git
+cd bayes-stat-modeling
+
+# Open in VS Code with Dev Containers extension
+code .
+# Click "Reopen in Container" when prompted
+
+# Try the example model
+cd models/eight-schools
+quarto render eight-schools.qmd
+```
+
+For detailed setup instructions, see the [Getting Started](#getting-started) section below.
 
 # Structure of this repo
 This repo is organized in the following fashion:
