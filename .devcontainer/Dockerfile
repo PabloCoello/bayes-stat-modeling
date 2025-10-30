@@ -21,7 +21,6 @@ RUN apt-get update && apt-get install -y \
     locales \
     pandoc \
     pandoc-citeproc \
-    libv8-dev \
     python3 \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*
@@ -69,6 +68,8 @@ RUN mkdir -p /root/.ssh && \
     chmod 0700 /root/.ssh && \
     ssh-keyscan github.com > /root/.ssh/known_hosts
 
+# SECURITY NOTE: SSH keys are added as build arguments and may be accessible in image history
+# For production use, consider using Docker BuildKit secrets or multi-stage builds
 # Add the keys and set permissions
 RUN echo "$SSH_PRV_KEY" > /root/.ssh/id_rsa && \
     echo "$SSH_KEY" > /root/.ssh/id_rsa.pub && \

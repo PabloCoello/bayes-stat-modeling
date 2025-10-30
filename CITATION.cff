@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+message: "If you use this repository in your research, please cite it as below."
+type: software
+title: "Bayes Stat Modeling: A Template Repository for Bayesian Statistical Analysis"
+abstract: "A structured repository for conducting Bayesian statistical modeling following the workflow proposed by Gelman et al. (2020). Includes templates, dev container setup, and example models."
+authors:
+  - family-names: "Coello"
+    given-names: "Pablo"
+    orcid: "https://orcid.org/0000-0000-0000-0000"  # Update with actual ORCID if available
+repository-code: "https://github.com/PabloCoello/bayes-stat-modeling"
+url: "https://github.com/PabloCoello/bayes-stat-modeling"
+license: MIT
+keywords:
+  - Bayesian statistics
+  - Statistical modeling
+  - Stan
+  - R
+  - Python
+  - Quarto
+  - Reproducible research
+  - Template repository
+references:
+  - type: article
+    authors:
+      - family-names: "Gelman"
+        given-names: "Andrew"
+      - family-names: "Vehtari"
+        given-names: "Aki"
+      - family-names: "Simpson"
+        given-names: "Daniel"
+      - family-names: "Margossian"
+        given-names: "Charles C."
+      - family-names: "Carpenter"
+        given-names: "Bob"
+      - family-names: "Yao"
+        given-names: "Yuling"
+      - family-names: "Kennedy"
+        given-names: "Lauren"
+      - family-names: "Gabry"
+        given-names: "Jonah"
+      - family-names: "Bürkner"
+        given-names: "Paul-Christian"
+      - family-names: "Modrák"
+        given-names: "Martin"
+    title: "Bayesian workflow"
+    year: 2020
+    journal: "arXiv preprint"
+    url: "https://arxiv.org/abs/2011.01808"
