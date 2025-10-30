@@ -36,7 +36,7 @@ When using this repository:
 
 2. **Use the dev container**: The provided Docker container includes validated dependencies
 
-3. **Review dependencies**: Check the `requirements.txt` and `requirements-src.R` files for security updates
+3. **Review dependencies**: Check the `.devcontainer/requirements/requirements.txt` and `.devcontainer/requirements/requirements-src.R` files for security updates
 
 4. **Keep Docker updated**: Ensure you're using recent versions of Docker and the base images
 
@@ -67,7 +67,11 @@ install.packages("package_name")
 The Dockerfile in this repository:
 - Uses Ubuntu 20.04 LTS as base (consider upgrading to 22.04 or 24.04 for newer security patches)
 - Installs system packages from official repositories
-- Does not include SSH keys in the final image
+
+**Security Note**: The Dockerfile contains SSH key build arguments that are written to image layers. While these keys are removed from the final filesystem, they may still be accessible in the image history. For production use:
+- Build images without SSH keys or use multi-stage builds
+- Use secret management features like Docker BuildKit secrets
+- Avoid committing sensitive credentials to the Dockerfile
 
 ## Acknowledgments
 
